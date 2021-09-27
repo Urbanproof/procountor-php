@@ -1,11 +1,12 @@
 <?php
 
-namespace Procountor\Procountor\Json;
+namespace Procountor\Tests\Json;
 
 use PHPUnit\Framework\TestCase;
 use Procountor\Procountor\Interfaces\AbstractResourceInterface;
 use DateTime;
 use Procountor\Procountor\Collection\AbstractCollection;
+use Procountor\Procountor\Json\Builder;
 
 class BuilderTest extends TestCase
 {

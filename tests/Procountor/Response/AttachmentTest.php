@@ -1,6 +1,6 @@
 <?php
 
-namespace Procountor\Procountor\Response;
+namespace Procountor\Tests\Response;
 
 use Procountor\Procountor\Response\Attachment;
 use Procountor\Procountor\Test\ResponseTestBase;

@@ -1,10 +1,11 @@
 <?php
 
-namespace Procountor\Procountor\Collection;
+namespace Procountor\Tests\Collection;
 
 use PHPUnit\Framework\TestCase;
 use Procountor\Procountor\Interfaces\AbstractResourceInterface;
 use Exception;
+use Procountor\Procountor\Collection\AbstractCollection;
 
 class AbstractCollectionTest extends TestCase
 {

@@ -11,14 +11,7 @@ abstract class AbstractCollection implements IteratorAggregate, Countable
 {
 
     /** @var array<AbstractResourceInterface> $items */
-    private array $items = [];
-
-    /**
-     * @template AbstractResource
-     * @param AbstractResource ...$items Pass in with spread operator
-     * @return void
-     */
-    abstract public function __construct(...$items);
+    protected array $items = [];
 
     /**
      * Add item into collection

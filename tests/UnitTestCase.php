@@ -60,7 +60,7 @@ class UnitTestCase extends TestCase
      */
     protected function getResponseJson(string $resourceName): string
     {
-        $filename = dirname(__DIR__) . "/json/$resourceName.json";
+        $filename = dirname(__FILE__) . "/json/$resourceName.json";
         if (!file_exists($filename)) {
             throw new RuntimeException('No JSON spesified for a given resource.');
         }

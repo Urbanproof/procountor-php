@@ -66,6 +66,11 @@ class ApiTestCase extends TestCase
         );
     }
 
+    public function jsonResponse(int $status, $body): ResponseInterface
+    {
+        return $this->createResponse($status, json_encode($body), ['Content-Type' => 'application/json']);
+    }
+
     public function createResponse(int $status, ?string $body = null, array $headers = [],  string $reasonPhrase = ''): ResponseInterface
     {
         $reponse = $this->responseFactory->createResponse($status, $reasonPhrase);

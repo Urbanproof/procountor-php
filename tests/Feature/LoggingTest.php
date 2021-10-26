@@ -1,34 +1,46 @@
 <?php
 
+use Mockery\MockInterface;
+use Procountor\Helpers\Http;
 use Procountor\Procountor\Client;
+use Procountor\Tests\ApiTestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
+
 it('calls logger on request', function () {
-    $logMessage = null;
-    $logContext = null;
-    $logger = mock(LoggerInterface::class)
-        ->shouldReceive('info')
+
+    /** @var ApiTestCase $this */
+
+    /** @var MockInterface $logger */
+    $logger = mock(LoggerInterface::class);
+    $logger = $logger->shouldReceive('info')
         ->with(Mockery::capture($logMessage), Mockery::capture($logContext))
-        ->once()
+        ->times(2) // 1. request token 2. make the api call
         ->mock();
-    $httpClient = mock(ClientInterface::class)
-        ->shouldReceive('sendRequest')
+    /** @var LoggerInterface $logger */
+
+    /** @var MockInterface $httpClient */
+    $httpClient = mock(ClientInterface::class);
+    $httpClient = $httpClient->shouldReceive('sendRequest')
         ->with(Mockery::type(RequestInterface::class))
         ->andReturn(
             // first request creates access token
-            $this->createResponse(200, json_encode(['access_token' => 'qwertyuiop'])),
+            $this->jsonResponse(200,['access_token' => 'qwertyuiop', 'expires_in' => 123456]),
             // second request fetches resource
             $this->createResponse(200)
         )
         ->mock();
+    /** @var ClientInterface $httpClient */
+
     /** @var Client $client */
     $client = $this->createClient(
         logger: $logger,
         httpClient: $httpClient,
     );
-    $request = $client->createRequest(Client::HTTP_GET, Client::RESOURCE_INVOICE);
+
+    $request = $client->createRequest(Http::GET, Client::RESOURCE_INVOICE);
     $client->request($request);
-    // $this->assertEquals('nginx', $responseHeaders['Server'][0]);
-});
+
+})->group('logging');

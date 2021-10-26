@@ -18,7 +18,7 @@ There is a [known bug](https://github.com/bmewburn/vscode-intelephense/issues/17
 ```php
 /** @var MockInterface $logger */
 $logger = mock(LoggerInterface::class);
-$logger->shouldReceive('info')
+$logger = $logger->shouldReceive('info')
     ->with(Mockery::capture($logMessage), Mockery::capture($logContext))
     ->once()
     ->mock();

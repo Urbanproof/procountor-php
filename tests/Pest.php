@@ -1,6 +1,7 @@
 <?php
 
-use Procountor\Tests\ProcountorTestCase;
+use Procountor\Tests\ApiTestCase;
+use Procountor\Tests\UnitTestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +13,8 @@ use Procountor\Tests\ProcountorTestCase;
 | need to change it using the "uses()" function to bind a different classes or traits.
 |
 */
-uses(ProcountorTestCase::class)->in('Feature');
+uses(ApiTestCase::class)->in('Feature');
+uses(UnitTestCase::class)->in('Unit');
 
 /*
 |--------------------------------------------------------------------------

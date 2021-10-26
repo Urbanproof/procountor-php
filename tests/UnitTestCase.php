@@ -1,14 +1,16 @@
 <?php
 
-namespace Procountor\Procountor\Test;
+namespace Procountor\Tests;
 
-use Procountor\Procountor\Collection\AbstractCollection;
-use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use DateTime;
+use PHPUnit\Framework\TestCase;
+use Procountor\Procountor\Collection\AbstractCollection;
+use ReflectionClass;
+use RuntimeException;
 
-abstract class ResponseTestBase extends TestCase
+class UnitTestCase extends TestCase
 {
+
     protected function assertProcountorResponseObject($data, $object)
     {
         $reflection = new ReflectionClass($object);
@@ -36,20 +38,33 @@ abstract class ResponseTestBase extends TestCase
                             $this->assertProcountorResponseObject($excepted, $ret);
                             break;
                     }
-
                     break;
                 default:
                     $this->assertEquals(
                         $excepted,
                         $ret,
-                        sprintf(
-                            'Field "%s" of %s value not matching',
-                            $field,
-                            get_class($object)
-                        )
+                        sprintf('Field "%s" of %s value not matching', $field, get_class($object))
                     );
                     break;
             }
         }
     }
+
+    /**
+     * Get predefined JSON test data for a given resource.
+     * Simply a wrapper for file_get_contents.
+     *
+     * @param string $resourceName For example, "dimension", "attachment" etc.
+     * @return string
+     * @throws RuntimeException
+     */
+    protected function getResponseJson(string $resourceName): string
+    {
+        $filename = dirname(__DIR__) . "/json/$resourceName.json";
+        if (!file_exists($filename)) {
+            throw new RuntimeException('No JSON spesified for a given resource.');
+        }
+        return file_get_contents($filename);
+    }
+
 }

@@ -19,7 +19,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class ProcountorTestCase extends TestCase
+class ApiTestCase extends TestCase
 {
 
     private ResponseFactory $responseFactory;

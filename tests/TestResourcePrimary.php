@@ -37,7 +37,7 @@ class TestResourcePrimary implements AbstractResourceInterface
 
     public function getTestCollection(): AbstractCollection
     {
-        return new TestCollection(...array_fill(0, 5, new TestResourcePrimary()));
+        return new TestCollection(...array_fill(0, 5, new TestResourceSecondary()));
     }
 
 }

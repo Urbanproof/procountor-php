@@ -3,6 +3,7 @@
   "description": "Laravel package for PHP Procountor client",
   "version": "0.0.1",
   "type": "library",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "Procountor\\": "src/"
@@ -34,6 +35,19 @@
   },
   "suggest": {
     "guzzlehttp/guzzle": "Required to use the HTTP Client, Mailgun mail driver and the ping methods on schedules (^7.0.1)."
+  },
+  "archive": {
+    "exclude": [
+      "/tests",
+      "/docs",
+      ".gitattributes",
+      ".gitignore",
+      "phpunit.xml",
+      ".phpcs.xml",
+      ".vscode",
+      ".devcontainer",
+      ".env.example"
+    ]
   },
   "scripts": {
     "test": "vendor/bin/phpunit",

@@ -4,6 +4,7 @@ namespace Procountor\Tests;
 
 use DateTime;
 use Procountor\Procountor\Collection\AbstractCollection;
+use Procountor\Procountor\Interfaces\AbstractResourceInterface;
 
 class TestResourceSecondary extends TestResourcePrimary
 {
@@ -13,7 +14,7 @@ class TestResourceSecondary extends TestResourcePrimary
         return new DateTime('2021-02-02 11:22:33');
     }
 
-    public function getTestAnotherResource(): null
+    public function getTestAnotherResource(): ?AbstractResourceInterface
     {
         return null;
     }

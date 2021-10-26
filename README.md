@@ -11,6 +11,9 @@ Credit where credit is due, this project is based on other people's hard work. S
 ## What's chamged?
 
 - No more hard dependencies. Loggers, HTTP clients, you name it, all injected & easily replaced.
+- Modernized test suite (uses [Pest](https://pestphp.com/))
+- PHP8 compatibility
+- Code is documented with phpdoc instead of generic comments (still WIP)
 - PSR compatible;
     - PSR-3 logger interfaces
     - PSR-6 cache interfaces
@@ -24,9 +27,6 @@ Credit where credit is due, this project is based on other people's hard work. S
     - [ ] Facades for resources (partial)
     - [ ] Helper for authorization flow (partial)
     - [ ] Jobs for create -operations
-- Modernized test suite (uses [Pest](https://pestphp.com/))
-- PHP8 compatibility
-- Code is documented with phpdoc instead of generic comments (still WIP)
 
 
 ## Tested working API's

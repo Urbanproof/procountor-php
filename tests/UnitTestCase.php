@@ -3,6 +3,7 @@
 namespace Procountor\Tests;
 
 use DateTime;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use Procountor\Procountor\Collection\AbstractCollection;
 use ReflectionClass;
@@ -15,12 +16,20 @@ class UnitTestCase extends TestCase
     {
         $reflection = new ReflectionClass($object);
         foreach ($reflection->getMethods() as $method) {
-            if ($method->name == '__construct' || !preg_match('/get(.*)/', $method->name, $matches)) {
+            if ($method->name == '__construct' || !preg_match('/get(?<fieldName>.*)/', $method->name, $matches)) {
                 continue;
             }
 
             $ret = $object->{$method->name}();
-            $field = lcfirst($matches[1]);
+            $field = lcfirst($matches['fieldName']);
+
+            if (!isset($data->{$field})) {
+                // If value is missing but null is allowed value -> go to next iteration
+                if ($method->getReturnType()->allowsNull()) {
+                    continue;
+                }
+                throw new LogicException("Missing required field $field");
+            }
             $excepted = $data->{$field};
 
             switch (gettype($ret)) {

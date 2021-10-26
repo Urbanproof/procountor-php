@@ -3,7 +3,7 @@
 namespace Procountor\Tests;
 
 use DateTime;
-use Procountor\Procountor\Interfaces\AbstractResourceInterface;
+use Procountor\Procountor\Collection\AbstractCollection;
 
 class TestResourceSecondary extends TestResourcePrimary
 {
@@ -26,6 +26,11 @@ class TestResourceSecondary extends TestResourcePrimary
     public function getTestInt(): int
     {
         return 654321;
+    }
+
+    public function getTestCollection(): AbstractCollection
+    {
+        return new TestCollection();
     }
 
 }

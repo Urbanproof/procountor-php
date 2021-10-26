@@ -13,9 +13,9 @@ class TestResourceSecondary extends TestResourcePrimary
         return new DateTime('2021-02-02 11:22:33');
     }
 
-    public function getTestAnotherResource(): AbstractResourceInterface
+    public function getTestAnotherResource(): null
     {
-        return new TestResourcePrimary();
+        return null;
     }
 
     public function getTestString(): string

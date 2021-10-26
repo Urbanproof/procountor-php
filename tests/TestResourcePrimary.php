@@ -20,7 +20,7 @@ class TestResourcePrimary implements AbstractResourceInterface
         return null;
     }
 
-    public function getTestAnotherResource(): AbstractResourceInterface
+    public function getTestAnotherResource(): ?AbstractResourceInterface
     {
         return new TestResourceSecondary();
     }

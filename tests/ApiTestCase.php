@@ -15,6 +15,7 @@ use Procountor\Procountor\Environment;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -65,7 +66,7 @@ class ApiTestCase extends TestCase
         );
     }
 
-    public function createResponse(int $status, ?string $body = null, array $headers = [],  string $reasonPhrase = '')
+    public function createResponse(int $status, ?string $body = null, array $headers = [],  string $reasonPhrase = ''): ResponseInterface
     {
         $reponse = $this->responseFactory->createResponse($status, $reasonPhrase);
         if (!empty($headers)) {

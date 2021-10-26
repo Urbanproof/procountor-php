@@ -1,7 +1,7 @@
 <?php
 
 use Procountor\Tests\TestCollection;
-use Procountor\Tests\TestResource;
+use Procountor\Tests\TestResourcePrimary;
 
 test('adding invalid item throws', function () {
     $collection = new TestCollection();
@@ -13,7 +13,7 @@ test('adding invalid item throws', function () {
 
 test('adding valid item', function () {
     $collection = new TestCollection();
-    $collection->addItem(new TestResource());
+    $collection->addItem(new TestResourcePrimary());
     $this->assertCount(1, $collection);
 })
     ->group('collection');
@@ -21,12 +21,12 @@ test('adding valid item', function () {
 test('iterating over collection', function() {
     $collection = new TestCollection();
     for ($i = 1; $i <= 5; $i++) {
-        $collection->addItem(new TestResource());
+        $collection->addItem(new TestResourcePrimary());
     }
     $this->assertCount(5, $collection);
     $counted = 0;
     foreach ($collection as $resource) {
-        $this->assertEquals('This is a test.', $resource->getTestAttribute());
+        $this->assertEquals('This is a test.', $resource->getTestString());
         ++$counted;
     }
     $this->assertEquals(5, $counted);

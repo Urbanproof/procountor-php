@@ -2,8 +2,9 @@
 
 namespace Procountor\Tests;
 
-use Cache\Adapter\PHPArray\ArrayCachePool;
 use Dotenv\Dotenv;
+use Faker\Factory as FakerFactory;
+use Faker\Generator;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use PhpExtended\HttpMessage\RequestFactory;
 use PhpExtended\HttpMessage\ResponseFactory;
@@ -12,6 +13,7 @@ use PhpExtended\HttpMessage\UriFactory;
 use PHPUnit\Framework\TestCase;
 use Procountor\Procountor\Client;
 use Procountor\Procountor\Environment;
+use Procountor\Tests\TestDoubles\NullCachePool;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -23,15 +25,30 @@ use Psr\Log\NullLogger;
 class ApiTestCase extends TestCase
 {
 
-    private ResponseFactory $responseFactory;
-    private StreamFactory $streamFactory;
+    public Generator $faker;
+    protected Environment $environment;
+    protected ResponseFactory $responseFactory;
+    protected StreamFactory $streamFactory;
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/..', '.env.testing');
+        $dotenv->load();
+
         $this->responseFactory = new ResponseFactory();
         $this->streamFactory = new StreamFactory();
-        $this->cachePool = new ArrayCachePool();
+        $this->cachePool = new NullCachePool();
+        $this->faker = FakerFactory::create();
+        $this->environment = new Environment(
+            $_ENV['PROCOUNTOR_CLIENT_ID'],
+            $_ENV['PROCOUNTOR_CLIENT_SECRET'],
+            $_ENV['PROCOUNTOR_API_KEY'] ?? null,
+            $_ENV['PROCOUNTOR_BASE_URI'],
+            $_ENV['PROCOUNTOR_REDIRECT_URI'],
+            new UriFactory()
+        );
     }
 
     public function createClient(
@@ -42,27 +59,13 @@ class ApiTestCase extends TestCase
         ?Environment $environment = null,
         ?CacheItemPoolInterface $cachePool = null
     ) {
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/..', '.env.testing');
-        $dotenv->load();
-
-        if (is_null($environment)) {
-            $environment = new Environment(
-                $_ENV['PROCOUNTOR_CLIENT_ID'],
-                $_ENV['PROCOUNTOR_CLIENT_SECRET'],
-                $_ENV['PROCOUNTOR_API_KEY'] ?? null,
-                $_ENV['PROCOUNTOR_BASE_URI'],
-                $_ENV['PROCOUNTOR_REDIRECT_URI'],
-                new UriFactory()
-            );
-        }
-
         return new Client(
-            $httpClient ?? new GuzzleHttpClient(),
+            $httpClient ?? new GuzzleHttpClient(['verify' => $_ENV['HTTPS_PROXY_CA_CERT'] ?? true]),
             $requestFactory ?? new RequestFactory(),
             $streamFactory ?? new StreamFactory(),
             $logger ?? new NullLogger(),
-            $environment,
-            $cachePool ?? new ArrayCachePool()
+            $environment ?? $this->environment,
+            $cachePool ?? new NullCachePool()
         );
     }
 
@@ -84,4 +87,5 @@ class ApiTestCase extends TestCase
         }
         return $reponse;
     }
+
 }

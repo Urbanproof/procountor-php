@@ -8,7 +8,9 @@ use Procountor\Procountor\Response\BusinessPartner as BusinessPartnerOut;
 
 class BusinessPartners extends AbstractResourceRequest
 {
-    protected $apiPath = 'businesspartners';
-    protected $interfaceIn = BusinessPartnerIn::class;
-    protected $interfaceOut = BusinessPartnerOut::class;
+
+    protected static string $apiPath = 'businesspartners';
+    protected static string $interfaceIn = BusinessPartnerIn::class;
+    protected static string $interfaceOut = BusinessPartnerOut::class;
+
 }
